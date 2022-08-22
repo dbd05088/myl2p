@@ -1,0 +1,251 @@
+class ViT(nn.Module):
+    def __init__(self,
+                num_layers,
+                num_heads,
+                num_classes: int,
+                patches: ml_collections.ConfigDict, #16x16
+                transformers: ml_collections.ConfigDict,
+                hidden_size: int,
+                training: bool = False,
+                norm_pre_logits: bool = False,
+                temperature: float = 1.0,
+                representation_size = None,
+                classifier: str = 'token',
+                use_cls_token: bool = True,
+                prompt_params= None,
+                reweight_prompt: bool = False,
+                num_tasks: int = -1,
+                prefix_params = None,
+                prompt_contrastive_temp: float = -1.0,
+                num_classes_per_task: int = -1,
+                in_channels: int = 3,
+                patch_size: int = 16,
+                emb_size: int = 768,
+                img_size: int = 224,
+                depth: int = 12,
+                n_classes: int = 1000,
+                **kwargs):
+        '''
+            num_classes: int
+            patches: ml_collections.ConfigDict #16x16
+            transformer: ml_collections.ConfigDict
+            hidden_size: int
+            train: bool = False
+            norm_pre_logits: bool = False
+            temperature: float = 1.0
+            representation_size: Optional[int] = None
+            classifier: str = 'token'
+            use_cls_token: bool = True
+            prompt_params: Any = None
+            reweight_prompt: bool = False
+            num_tasks: int = -1
+            prefix_params: Any = None
+            prompt_contrastive_temp: float = -1.0
+            num_classes_per_task: int = -1
+        '''
+        super().__init__()
+        self.depth = depth
+        self.PatchEmbedding = PatchEmbedding(in_channels, patch_size, emb_size, img_size)
+        self.transformer= TransformerEncoder(depth, emb_size=emb_size, **kwargs)
+        self.ClassificationHead = ClassificationHead(emb_size, n_classes)
+        self.prefix_layer = None
+        self.batched_prompt = None
+        self.prompt_counter = -1
+        
+        self.transformers = transformers
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.num_heads = num_heads
+        self.prefix_params = prefix_params
+        self.g_prompt_length = prefix_params['g_prompt_length']
+        self.g_prompt_layer_idx = prefix_params['g_prompt_layer_idx']
+        self.training = training
+        self.norm_pre_logits = norm_pre_logits
+        self.temperature = temperature
+        self.representation_size = representation_size
+        self.classifier = classifier
+        self.use_cls_token = use_cls_token
+        self.prompt_params = prompt_params
+        self.reweight_prompt = reweight_prompt
+        self.num_tasks = num_tasks
+        self.prefix_params = prefix_params
+        self.prompt_contrastive_temp = prompt_contrastive_temp
+        self.num_classes_per_task = num_classes_per_task
+
+        # init prefix
+        self.use_prefix_tune_for_g_prompt = True
+        if self.prefix_params:
+            n_layers = self.num_layers
+            n_heads = self.num_heads
+
+            self.g_prompt_length = self.g_prompt_length
+            self.g_prompt_layer_idx = self.g_prompt_layer_idx
+            self.embedding_size = self.hidden_size // n_heads
+
+            if not self.prefix_params['use_prefix_tune_for_g_prompt']:
+                self.use_prefix_tune_for_g_prompt = False
+                w = torch.empty((n_layers, self.g_prompt_length, self.hidden_size))
+                prefix = nn.init.uniform_(w, 0, 0.01)
+                
+            else:
+                # 1.4: added for the same key and value
+                if self.prefix_params['same_key_value']:
+                    w = torch.empty((n_layers, 1, self.g_prompt_length, n_heads, self.embedding_size))
+                    prefix = nn.init.uniform_(w, 0, 0.01)
+                    prefix = np.tile(prefix, (1, 2, 1, 1, 1))
+                else:
+                    w = torch.empty((n_layers, 2, self.g_prompt_length, n_heads, self.embedding_size))
+                    prefix = nn.init.uniform_(w, 0, 0.01)
+
+        else:
+            prefix = None
+            self.g_prompt_layer_idx = []
+
+        if self.prefix_params:
+            if not self.prefix_params['use_prefix_tune_for_g_prompt']:
+                self.total_prompt_len = self.prefix_params['g_prompt_length'] * len(
+                    self.prefix_params['g_prompt_layer_idx'])
+
+
+        if self.transformers is not None:
+            # res_vit["embedding"] = x
+            # put it after class token for now
+            if self.prompt_params is not None:
+                # set up number of layers
+                if isinstance(self.prompt_params['e_prompt_layer_idx'], int):
+                    num_prompted_layers = 1
+                else:
+                    num_prompted_layers = len(self.prompt_params['e_prompt_layer_idx'])
+                # set up if using prefix-style prompts or not
+                use_prefix_tune_for_e_prompt = self.prompt_params['use_prefix_tune_for_e_prompt']
+                if use_prefix_tune_for_e_prompt:
+                    same_key_value_for_pool = self.prompt_params['same_key_value']
+                e_prompt_layer_idx = self.prompt_params['e_prompt_layer_idx']
+                # set up number of heads for prefix
+                num_heads = self.transformers.num_heads
+                
+                if 'prompt_pool' in self.prompt_params:  # pylint: disable=unsupported-membership-test
+                    prompt_pool_params = self.prompt_params['prompt_pool']
+                    '''
+                    if prompt_pool_params.initializer == 'normal':
+                        initializer = nn.initializers.normal()
+                    # for now we don't have other initilizers besides uniform and normal
+                    else:
+                        initializer = nn.initializers.uniform()
+                    '''
+                    prompt_pool_module = prompt.Prompt(
+                        length=prompt_pool_params.length,
+                        embedding_key=prompt_pool_params.embedding_key,
+                        prompt_init=prompt_pool_params.initializer, 
+                        name='prompt_pool',
+                        prompt_pool=True,
+                        prompt_key=prompt_pool_params.prompt_key,
+                        pool_size=prompt_pool_params.pool_size,
+                        top_k=prompt_pool_params.top_k,
+                        batchwise_prompt=prompt_pool_params.batchwise_prompt,
+                        prompt_key_init=prompt_pool_params.prompt_key_init,
+                        num_classes_per_task=self.num_classes_per_task,
+                        num_layers=num_prompted_layers,
+                        use_prefix_tune_for_e_prompt=use_prefix_tune_for_e_prompt,
+                        num_heads=num_heads,
+                        num_tasks=self.num_tasks,
+                    )
+        
+
+    def forward(self, input, prompt_mask = None, task_id = -1, cls_features = None, label = None):
+        x = input
+        n, h, w, c = x.shape
+        res_vit = dict()
+
+        ###### step 1. Patch Embedding + PosEmbedding
+        out = self.PatchEmbedding(input)
+
+        # Here, x is a grid of embeddings.
+        batched_prompt = None
+        use_prefix_tune_for_e_prompt = False
+        same_key_value_for_pool = False
+        e_prompt_layer_idx = []      
+
+        if self.transformers is not None:
+            n, h, w, c = x.shape
+            x = np.reshape(x, [n, h * w, c])
+            # res_vit["embedding"] = x
+            # put it after class token for now
+            if self.prompt_params is not None:
+                # set up number of layers
+                if isinstance(self.prompt_params['e_prompt_layer_idx'], int):
+                    num_prompted_layers = 1
+                else:
+                    num_prompted_layers = len(self.prompt_params['e_prompt_layer_idx'])
+                # set up if using prefix-style prompts or not
+                use_prefix_tune_for_e_prompt = self.prompt_params['use_prefix_tune_for_e_prompt']
+                if use_prefix_tune_for_e_prompt:
+                    same_key_value_for_pool = self.prompt_params['same_key_value']
+                e_prompt_layer_idx = self.prompt_params['e_prompt_layer_idx']
+                # set up number of heads for prefix
+                num_heads = self.transformers.num_heads
+                
+                if 'prompt_pool' in self.prompt_params:  # pylint: disable=unsupported-membership-test
+                    prompt_pool_params = self.prompt_params['prompt_pool']
+                    '''
+                    if prompt_pool_params.initializer == 'normal':
+                        initializer = nn.initializers.normal()
+                    # for now we don't have other initilizers besides uniform and normal
+                    else:
+                        initializer = nn.initializers.uniform()
+                    '''
+                    prompt_pool_module = prompt.Prompt(
+                        length=prompt_pool_params.length,
+                        embedding_key=prompt_pool_params.embedding_key,
+                        prompt_init=prompt_pool_params.initializer, 
+                        name='prompt_pool',
+                        prompt_pool=True,
+                        prompt_key=prompt_pool_params.prompt_key,
+                        pool_size=prompt_pool_params.pool_size,
+                        top_k=prompt_pool_params.top_k,
+                        batchwise_prompt=prompt_pool_params.batchwise_prompt,
+                        prompt_key_init=prompt_pool_params.prompt_key_init,
+                        num_classes_per_task=self.num_classes_per_task,
+                        num_layers=num_prompted_layers,
+                        use_prefix_tune_for_e_prompt=use_prefix_tune_for_e_prompt,
+                        num_heads=num_heads,
+                        num_tasks=self.num_tasks,
+                    )
+                    res_vit = prompt_pool_module(
+                        x,
+                        prompt_mask,
+                        task_id=task_id,
+                        cls_features=cls_features,
+                        label=label)
+                batched_prompt = res_vit['batched_prompt']
+                total_prompt_len = 0
+                if self.prefix_params:
+                    if not self.prefix_params['use_prefix_tune_for_g_prompt']:
+                        total_prompt_len += self.prefix_params['g_prompt_length'] * len(self.prefix_params['g_prompt_layer_idx'])
+                for key in self.prompt_params:  # pylint: disable=not-an-iterable
+                    if not use_prefix_tune_for_e_prompt:
+                        if key == 'prompt_pool':
+                        # make it multi-layered prompts
+                            total_prompt_len += self.prompt_params[key].length * self.prompt_params[key].top_k * num_prompted_layers
+                        elif key == 'shared_prompt' or key == 'task_specific_prompt':
+                            total_prompt_len += self.prompt_params[key].length * num_prompted_layers
+
+            # If we want to add a class token, add it here.
+            if self.use_cls_token:
+                cls = torch.zeros((1, 1, c))
+                cls = np.tile(cls, [n, 1, 1])
+                x = np.concatenate([cls, x], axis=1)
+                
+        x = self.transformer(
+            prefix=prefix,
+            g_prompt_layer_idx=g_prompt_layer_idx,
+            prompt=batched_prompt,
+            e_prompt_layer_idx=e_prompt_layer_idx,
+            use_prefix_tune_for_e_prompt=use_prefix_tune_for_e_prompt,
+            use_prefix_tune_for_g_prompt=use_prefix_tune_for_g_prompt,
+            **self.transformer)(
+                x, train=self.train)
+
+        # out = self.TransformerEncoder(out)
+        out = self.ClassificationHead(out)
+        return out

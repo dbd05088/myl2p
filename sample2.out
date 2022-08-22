@@ -1,0 +1,274 @@
+[INFO] main.py:40 > Namespace(batchsize=16, batchwise_prompt=False, checkpoint_every_steps=5000, data_dir=None, dataset='cifar100', dist_backend='nccl', dist_url='tcp://127.0.0.1:7009', distributed=True, e_prompt_layer_idx=[0], embedding_key='cls', eval_every_steps=-1, eval_last_only=False, eval_pad_last_batch=False, eval_period=100, eval_task_inc=False, freeze_bn_stats=False, freeze_part=['encoder', 'embedding', 'cls'], gaussian_mode='', gaussian_schedule=False, gpu_transform=True, grad_clip_max_norm=1.0, imp_update_period=1, init_checkpoint=<ml_collections.config_dict.config_dict.FieldReference object at 0x7f942c061590>, initializer='uniform', input_size=224, learning_rate_schedule='constant', length=10, log_loss_every_steps=3, log_path='results', lr=0.0003, m=10, mask_first_epoch=False, memory_epoch=256, memory_size=2000, mode='l2p', model_config=None, model_name='resnet34', multiprocessing_distributed=True, n=50, n_worker=2, norm_01=True, norm_pre_logits=False, note='l2p', num_classes_per_task=10, num_epochs=5, num_eval_steps=-1, num_tasks=5, num_train_steps_per_task=-1, offline_eval=False, online_iter=3.0, optim='adam', per_device_batch_size=16, pool_size=10, predefined_key_path='', prompt_histogram=True, prompt_key=True, prompt_key_init='uniform', prompt_mask_mode=None, prompt_pool=True, pull_constraint=True, pull_constraint_coeff=1.0, recreate_eval=False, reinit_optimizer=True, resize_size=256, reverse_task=False, save_last_ckpt_only=True, save_prompts=False, sched_name='default', seed=1, sgd_momentum=0.9, shared_prompt_key=False, shared_prompt_pool=True, shuffle_buffer_size=10000, stream_batchsize=32, stream_eval_period=10000, subsample_rate=-1, task_specific_cls_token=False, temp_batchsize=None, temperature=1, top_k=4, topk=1, total_class=100, train_mask=True, transforms=['cutmix', 'autoaug'], trial=0, use_amp=False, use_cls_token=True, use_e_prompt=True, use_g_prompt=False, use_prefix_tune_for_e_prompt=False, use_prompt_mask=False, vit_classifier='prompt', warmup_epochs=0, weight_decay=0, weight_norm=False, world_size=4)
+[INFO] main.py:49 > Set the device (cuda)
+[INFO] main.py:101 > Using train-transforms Compose(
+    RandomCrop(size=(224, 224), padding=4)
+    RandomHorizontalFlip(p=0.5)
+    AutoAugment(policy=AutoAugmentPolicy.CIFAR10, fill=None)
+    ConvertImageDtype()
+    Normalize(mean=(0.5071, 0.4867, 0.4408), std=(0.2675, 0.2565, 0.2761))
+)
+[INFO] main.py:111 > [1] Select a CIL method (l2p)
+Loaded pretrained weights.
+x_embedded_dim 768
+[INFO] main.py:117 > [2] Incrementally training 5 tasks
+
+##################################################
+# Task 0 iteration
+##################################################
+
+[INFO] main.py:130 > [2-1] Prepare a datalist for the current task
+[INFO] l2p.py:345 > Train | Sample # 16 | train_loss 4.6629 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:11 | ETA 10:22:24
+[INFO] l2p.py:345 > Train | Sample # 32 | train_loss 6.0758 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:12 | ETA 5:27:01
+[INFO] l2p.py:345 > Train | Sample # 48 | train_loss 4.0852 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:14 | ETA 4:05:41
+[INFO] l2p.py:345 > Train | Sample # 64 | train_loss 5.9863 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:15 | ETA 3:16:39
+[INFO] l2p.py:345 > Train | Sample # 80 | train_loss 3.8337 | train_acc 0.1250 | lr 0.000300 | running_time 0:00:16 | ETA 2:51:01
+[INFO] l2p.py:345 > Train | Sample # 96 | train_loss 3.7846 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:18 | ETA 2:37:50
+[INFO] l2p.py:345 > Train | Sample # 112 | train_loss 5.0765 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:19 | ETA 2:22:28
+[INFO] l2p.py:345 > Train | Sample # 128 | train_loss 4.1477 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:20 | ETA 2:15:10
+[INFO] l2p.py:345 > Train | Sample # 144 | train_loss 4.8969 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:22 | ETA 2:07:14
+[INFO] l2p.py:345 > Train | Sample # 160 | train_loss 4.7602 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:23 | ETA 2:01:30
+[INFO] l2p.py:345 > Train | Sample # 176 | train_loss 4.9245 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:24 | ETA 1:54:57
+[INFO] l2p.py:345 > Train | Sample # 192 | train_loss 4.0412 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:26 | ETA 1:52:52
+[INFO] l2p.py:345 > Train | Sample # 208 | train_loss 4.1359 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:27 | ETA 1:47:59
+[INFO] l2p.py:345 > Train | Sample # 224 | train_loss 3.9011 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:28 | ETA 1:46:40
+[INFO] l2p.py:345 > Train | Sample # 240 | train_loss 3.6233 | train_acc 0.1250 | lr 0.000300 | running_time 0:00:29 | ETA 1:42:53
+[INFO] l2p.py:345 > Train | Sample # 256 | train_loss 3.5547 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:31 | ETA 1:40:46
+[INFO] l2p.py:345 > Train | Sample # 272 | train_loss 4.2853 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:32 | ETA 1:38:54
+[INFO] l2p.py:345 > Train | Sample # 288 | train_loss 4.7407 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:34 | ETA 1:38:23
+[INFO] l2p.py:345 > Train | Sample # 304 | train_loss 3.4769 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:35 | ETA 1:35:44
+[INFO] l2p.py:345 > Train | Sample # 320 | train_loss 4.4711 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:36 | ETA 1:35:26
+[INFO] l2p.py:345 > Train | Sample # 336 | train_loss 3.0783 | train_acc 0.1875 | lr 0.000300 | running_time 0:00:38 | ETA 1:34:12
+[INFO] l2p.py:345 > Train | Sample # 352 | train_loss 3.9892 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:39 | ETA 1:32:10
+[INFO] l2p.py:345 > Train | Sample # 368 | train_loss 3.9311 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:40 | ETA 1:31:11
+[INFO] l2p.py:345 > Train | Sample # 384 | train_loss 3.9637 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:41 | ETA 1:30:13
+[INFO] l2p.py:345 > Train | Sample # 400 | train_loss 3.8450 | train_acc 0.1250 | lr 0.000300 | running_time 0:00:43 | ETA 1:29:23
+[INFO] l2p.py:345 > Train | Sample # 416 | train_loss 3.3099 | train_acc 0.1250 | lr 0.000300 | running_time 0:00:44 | ETA 1:28:36
+[INFO] l2p.py:345 > Train | Sample # 432 | train_loss 4.0064 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:45 | ETA 1:27:14
+[INFO] l2p.py:345 > Train | Sample # 448 | train_loss 3.4751 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:47 | ETA 1:27:12
+[INFO] l2p.py:345 > Train | Sample # 464 | train_loss 3.8197 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:49 | ETA 1:27:18
+[INFO] l2p.py:345 > Train | Sample # 480 | train_loss 3.7347 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:50 | ETA 1:26:41
+[INFO] l2p.py:345 > Train | Sample # 496 | train_loss 3.4162 | train_acc 0.1875 | lr 0.000300 | running_time 0:00:51 | ETA 1:25:28
+[INFO] l2p.py:345 > Train | Sample # 512 | train_loss 3.1201 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:53 | ETA 1:25:34
+[INFO] l2p.py:345 > Train | Sample # 528 | train_loss 3.1242 | train_acc 0.0625 | lr 0.000300 | running_time 0:00:54 | ETA 1:24:27
+[INFO] l2p.py:345 > Train | Sample # 544 | train_loss 3.4945 | train_acc 0.1250 | lr 0.000300 | running_time 0:00:55 | ETA 1:24:34
+[INFO] l2p.py:345 > Train | Sample # 560 | train_loss 3.8728 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:56 | ETA 1:23:32
+[INFO] l2p.py:345 > Train | Sample # 576 | train_loss 3.5439 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:58 | ETA 1:23:41
+[INFO] l2p.py:345 > Train | Sample # 592 | train_loss 3.4054 | train_acc 0.0000 | lr 0.000300 | running_time 0:00:59 | ETA 1:23:15
+[INFO] l2p.py:345 > Train | Sample # 608 | train_loss 3.2740 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:01 | ETA 1:22:52
+[INFO] l2p.py:345 > Train | Sample # 624 | train_loss 3.1746 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:02 | ETA 1:21:58
+[INFO] l2p.py:345 > Train | Sample # 640 | train_loss 3.4951 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:03 | ETA 1:21:38
+[INFO] l2p.py:345 > Train | Sample # 656 | train_loss 3.2169 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:05 | ETA 1:21:47
+[INFO] l2p.py:345 > Train | Sample # 672 | train_loss 3.3555 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:06 | ETA 1:21:27
+[INFO] l2p.py:345 > Train | Sample # 688 | train_loss 3.1609 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:07 | ETA 1:20:41
+[INFO] l2p.py:345 > Train | Sample # 704 | train_loss 3.9626 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:08 | ETA 1:20:24
+[INFO] l2p.py:345 > Train | Sample # 720 | train_loss 3.5025 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:10 | ETA 1:20:34
+[INFO] l2p.py:345 > Train | Sample # 736 | train_loss 3.1831 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:11 | ETA 1:20:11
+[INFO] l2p.py:345 > Train | Sample # 752 | train_loss 3.4642 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:12 | ETA 1:19:23
+[INFO] l2p.py:345 > Train | Sample # 768 | train_loss 3.7333 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:14 | ETA 1:19:09
+[INFO] l2p.py:345 > Train | Sample # 784 | train_loss 3.1851 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:15 | ETA 1:19:19
+[INFO] l2p.py:345 > Train | Sample # 800 | train_loss 2.7058 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:17 | ETA 1:19:06
+[INFO] l2p.py:345 > Train | Sample # 816 | train_loss 3.2837 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:18 | ETA 1:18:29
+[INFO] l2p.py:345 > Train | Sample # 832 | train_loss 3.3450 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:19 | ETA 1:17:56
+[INFO] l2p.py:345 > Train | Sample # 848 | train_loss 3.5731 | train_acc 0.1875 | lr 0.000300 | running_time 0:01:20 | ETA 1:18:04
+[INFO] l2p.py:345 > Train | Sample # 864 | train_loss 3.0464 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:22 | ETA 1:18:15
+[INFO] l2p.py:345 > Train | Sample # 880 | train_loss 3.3263 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:23 | ETA 1:18:04
+[INFO] l2p.py:345 > Train | Sample # 896 | train_loss 3.1270 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:25 | ETA 1:17:53
+[INFO] l2p.py:345 > Train | Sample # 912 | train_loss 2.8933 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:25 | ETA 1:17:03
+[INFO] l2p.py:345 > Train | Sample # 928 | train_loss 3.9762 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:26 | ETA 1:16:34
+[INFO] l2p.py:345 > Train | Sample # 944 | train_loss 2.9357 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:27 | ETA 1:16:12
+[INFO] l2p.py:345 > Train | Sample # 960 | train_loss 3.6114 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:28 | ETA 1:15:42
+[INFO] l2p.py:345 > Train | Sample # 976 | train_loss 3.4838 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:30 | ETA 1:15:34
+[INFO] l2p.py:345 > Train | Sample # 992 | train_loss 3.9636 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:32 | ETA 1:15:46
+[INFO] l2p.py:345 > Train | Sample # 1008 | train_loss 3.5943 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:32 | ETA 1:15:19
+[INFO] l2p.py:345 > Train | Sample # 1024 | train_loss 2.9603 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:34 | ETA 1:15:30
+[INFO] l2p.py:345 > Train | Sample # 1040 | train_loss 3.1055 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:36 | ETA 1:15:22
+[INFO] l2p.py:345 > Train | Sample # 1056 | train_loss 2.9155 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:37 | ETA 1:14:59
+[INFO] l2p.py:345 > Train | Sample # 1072 | train_loss 3.0218 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:38 | ETA 1:14:56
+[INFO] l2p.py:345 > Train | Sample # 1088 | train_loss 3.7755 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:39 | ETA 1:14:45
+[INFO] l2p.py:345 > Train | Sample # 1104 | train_loss 3.0559 | train_acc 0.1875 | lr 0.000300 | running_time 0:01:41 | ETA 1:14:38
+[INFO] l2p.py:345 > Train | Sample # 1120 | train_loss 3.3337 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:41 | ETA 1:14:00
+[INFO] l2p.py:345 > Train | Sample # 1136 | train_loss 3.1750 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:42 | ETA 1:13:27
+[INFO] l2p.py:345 > Train | Sample # 1152 | train_loss 3.0828 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:43 | ETA 1:13:04
+[INFO] l2p.py:345 > Train | Sample # 1168 | train_loss 3.6530 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:45 | ETA 1:13:15
+[INFO] l2p.py:345 > Train | Sample # 1184 | train_loss 2.8831 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:46 | ETA 1:13:26
+[INFO] l2p.py:345 > Train | Sample # 1200 | train_loss 3.4301 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:48 | ETA 1:13:21
+[INFO] l2p.py:345 > Train | Sample # 1216 | train_loss 3.4913 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:49 | ETA 1:13:16
+[INFO] l2p.py:345 > Train | Sample # 1232 | train_loss 3.4397 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:50 | ETA 1:13:11
+[INFO] l2p.py:345 > Train | Sample # 1248 | train_loss 3.2198 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:52 | ETA 1:13:06
+[INFO] l2p.py:345 > Train | Sample # 1264 | train_loss 4.0075 | train_acc 0.1250 | lr 0.000300 | running_time 0:01:53 | ETA 1:12:47
+[INFO] l2p.py:345 > Train | Sample # 1280 | train_loss 3.3938 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:54 | ETA 1:12:26
+[INFO] l2p.py:345 > Train | Sample # 1296 | train_loss 3.3936 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:55 | ETA 1:12:09
+[INFO] l2p.py:345 > Train | Sample # 1312 | train_loss 3.4993 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:56 | ETA 1:11:58
+[INFO] l2p.py:345 > Train | Sample # 1328 | train_loss 3.3654 | train_acc 0.0625 | lr 0.000300 | running_time 0:01:57 | ETA 1:11:54
+[INFO] l2p.py:345 > Train | Sample # 1344 | train_loss 3.6767 | train_acc 0.0000 | lr 0.000300 | running_time 0:01:59 | ETA 1:11:50
+[INFO] l2p.py:345 > Train | Sample # 1360 | train_loss 3.0477 | train_acc 0.1250 | lr 0.000300 | running_time 0:02:00 | ETA 1:11:32
+[INFO] l2p.py:345 > Train | Sample # 1376 | train_loss 3.7090 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:01 | ETA 1:11:28
+[INFO] l2p.py:345 > Train | Sample # 1392 | train_loss 3.0858 | train_acc 0.1875 | lr 0.000300 | running_time 0:02:02 | ETA 1:11:25
+[INFO] l2p.py:345 > Train | Sample # 1408 | train_loss 3.6799 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:04 | ETA 1:11:35
+[INFO] l2p.py:345 > Train | Sample # 1424 | train_loss 3.4654 | train_acc 0.1250 | lr 0.000300 | running_time 0:02:05 | ETA 1:11:18
+[INFO] l2p.py:345 > Train | Sample # 1440 | train_loss 3.1470 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:07 | ETA 1:11:28
+[INFO] l2p.py:345 > Train | Sample # 1456 | train_loss 3.1275 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:08 | ETA 1:11:11
+[INFO] l2p.py:345 > Train | Sample # 1472 | train_loss 3.3473 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:09 | ETA 1:11:08
+[INFO] l2p.py:345 > Train | Sample # 1488 | train_loss 3.2672 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:11 | ETA 1:11:17
+[INFO] l2p.py:345 > Train | Sample # 1504 | train_loss 3.0750 | train_acc 0.1250 | lr 0.000300 | running_time 0:02:12 | ETA 1:11:01
+[INFO] l2p.py:345 > Train | Sample # 1520 | train_loss 3.2950 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:13 | ETA 1:11:11
+[INFO] l2p.py:345 > Train | Sample # 1536 | train_loss 3.4212 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:14 | ETA 1:10:55
+[INFO] l2p.py:345 > Train | Sample # 1552 | train_loss 2.9685 | train_acc 0.1875 | lr 0.000300 | running_time 0:02:16 | ETA 1:10:52
+[INFO] l2p.py:345 > Train | Sample # 1568 | train_loss 3.5172 | train_acc 0.1250 | lr 0.000300 | running_time 0:02:17 | ETA 1:10:49
+[INFO] l2p.py:345 > Train | Sample # 1584 | train_loss 3.7925 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:18 | ETA 1:10:45
+[INFO] l2p.py:345 > Train | Sample # 1600 | train_loss 3.6545 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:20 | ETA 1:10:43
+[INFO] l2p.py:345 > Train | Sample # 1616 | train_loss 3.2176 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:21 | ETA 1:10:40
+[INFO] l2p.py:345 > Train | Sample # 1632 | train_loss 3.0343 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:23 | ETA 1:10:48
+[INFO] l2p.py:345 > Train | Sample # 1648 | train_loss 3.1336 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:24 | ETA 1:10:46
+[INFO] l2p.py:345 > Train | Sample # 1664 | train_loss 2.9731 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:26 | ETA 1:10:43
+[INFO] l2p.py:345 > Train | Sample # 1680 | train_loss 3.1397 | train_acc 0.1250 | lr 0.000300 | running_time 0:02:27 | ETA 1:10:40
+[INFO] l2p.py:345 > Train | Sample # 1696 | train_loss 3.6054 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:28 | ETA 1:10:37
+[INFO] l2p.py:345 > Train | Sample # 1712 | train_loss 3.3215 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:30 | ETA 1:10:34
+[INFO] l2p.py:345 > Train | Sample # 1728 | train_loss 2.8872 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:31 | ETA 1:10:20
+[INFO] l2p.py:345 > Train | Sample # 1744 | train_loss 3.7543 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:32 | ETA 1:10:28
+[INFO] l2p.py:345 > Train | Sample # 1760 | train_loss 2.9508 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:33 | ETA 1:10:15
+[INFO] l2p.py:345 > Train | Sample # 1776 | train_loss 3.1608 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:35 | ETA 1:10:23
+[INFO] l2p.py:345 > Train | Sample # 1792 | train_loss 3.3972 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:36 | ETA 1:10:09
+[INFO] l2p.py:345 > Train | Sample # 1808 | train_loss 3.5268 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:38 | ETA 1:10:17
+[INFO] l2p.py:345 > Train | Sample # 1824 | train_loss 3.5260 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:39 | ETA 1:10:14
+[INFO] l2p.py:345 > Train | Sample # 1840 | train_loss 3.1889 | train_acc 0.1250 | lr 0.000300 | running_time 0:02:40 | ETA 1:10:01
+[INFO] l2p.py:345 > Train | Sample # 1856 | train_loss 3.4099 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:41 | ETA 1:09:48
+[INFO] l2p.py:345 > Train | Sample # 1872 | train_loss 3.5536 | train_acc 0.1250 | lr 0.000300 | running_time 0:02:42 | ETA 1:09:27
+[INFO] l2p.py:345 > Train | Sample # 1888 | train_loss 2.9111 | train_acc 0.1875 | lr 0.000300 | running_time 0:02:43 | ETA 1:09:29
+[INFO] l2p.py:345 > Train | Sample # 1904 | train_loss 3.0973 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:44 | ETA 1:09:17
+[INFO] l2p.py:345 > Train | Sample # 1920 | train_loss 3.0266 | train_acc 0.0625 | lr 0.000300 | running_time 0:02:46 | ETA 1:09:24
+[INFO] l2p.py:345 > Train | Sample # 1936 | train_loss 2.7031 | train_acc 0.1875 | lr 0.000300 | running_time 0:02:47 | ETA 1:09:12
+[INFO] l2p.py:345 > Train | Sample # 1952 | train_loss 3.7152 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:49 | ETA 1:09:20
+[INFO] l2p.py:345 > Train | Sample # 1968 | train_loss 3.3047 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:50 | ETA 1:09:18
+[INFO] l2p.py:345 > Train | Sample # 1984 | train_loss 3.0832 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:51 | ETA 1:09:16
+[INFO] l2p.py:345 > Train | Sample # 2000 | train_loss 3.6080 | train_acc 0.0000 | lr 0.000300 | running_time 0:02:52 | ETA 1:09:04
+[INFO] l2p.py:499 > Task 0 | Epoch 1/256 | train_loss 3.2060 | train_acc 0.0693 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 2/256 | train_loss 3.3029 | train_acc 0.0517 | lr 0.0003
+[INFO] l2p.py:499 > Task 0 | Epoch 3/256 | train_loss 3.2701 | train_acc 0.0507 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 4/256 | train_loss 3.2175 | train_acc 0.0567 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 5/256 | train_loss 3.2364 | train_acc 0.0602 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 6/256 | train_loss 3.2372 | train_acc 0.0487 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 7/256 | train_loss 3.2096 | train_acc 0.0542 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 8/256 | train_loss 3.1784 | train_acc 0.0567 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 9/256 | train_loss 3.2210 | train_acc 0.0547 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 10/256 | train_loss 3.2372 | train_acc 0.0572 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 11/256 | train_loss 3.2261 | train_acc 0.0597 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 12/256 | train_loss 3.2092 | train_acc 0.0633 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 13/256 | train_loss 3.2019 | train_acc 0.0482 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 14/256 | train_loss 3.1882 | train_acc 0.0567 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 15/256 | train_loss 3.1690 | train_acc 0.0612 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 16/256 | train_loss 3.1630 | train_acc 0.0602 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 17/256 | train_loss 3.2121 | train_acc 0.0643 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 18/256 | train_loss 3.2185 | train_acc 0.0617 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 19/256 | train_loss 3.2240 | train_acc 0.0532 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 20/256 | train_loss 3.2103 | train_acc 0.0487 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 21/256 | train_loss 3.1986 | train_acc 0.0572 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 22/256 | train_loss 3.2089 | train_acc 0.0487 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 23/256 | train_loss 3.1975 | train_acc 0.0497 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 24/256 | train_loss 3.1902 | train_acc 0.0577 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 25/256 | train_loss 3.1860 | train_acc 0.0602 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 26/256 | train_loss 3.1862 | train_acc 0.0582 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 27/256 | train_loss 3.1779 | train_acc 0.0617 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 28/256 | train_loss 3.1778 | train_acc 0.0577 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 29/256 | train_loss 3.1703 | train_acc 0.0658 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 30/256 | train_loss 3.1646 | train_acc 0.0703 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 31/256 | train_loss 3.1593 | train_acc 0.0653 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 32/256 | train_loss 3.1633 | train_acc 0.0653 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 33/256 | train_loss 3.2095 | train_acc 0.0587 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 34/256 | train_loss 3.2013 | train_acc 0.0628 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 35/256 | train_loss 3.2150 | train_acc 0.0622 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 36/256 | train_loss 3.2090 | train_acc 0.0622 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 37/256 | train_loss 3.2027 | train_acc 0.0567 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 38/256 | train_loss 3.1986 | train_acc 0.0663 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 39/256 | train_loss 3.1912 | train_acc 0.0557 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 40/256 | train_loss 3.1890 | train_acc 0.0668 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 41/256 | train_loss 3.1932 | train_acc 0.0532 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 42/256 | train_loss 3.1908 | train_acc 0.0527 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 43/256 | train_loss 3.1878 | train_acc 0.0607 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 44/256 | train_loss 3.1903 | train_acc 0.0562 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 45/256 | train_loss 3.1827 | train_acc 0.0658 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 46/256 | train_loss 3.1811 | train_acc 0.0602 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 47/256 | train_loss 3.1794 | train_acc 0.0713 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 48/256 | train_loss 3.1755 | train_acc 0.0622 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 49/256 | train_loss 3.1777 | train_acc 0.0597 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 50/256 | train_loss 3.1777 | train_acc 0.0552 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 51/256 | train_loss 3.1771 | train_acc 0.0532 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 52/256 | train_loss 3.1776 | train_acc 0.0612 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 53/256 | train_loss 3.1731 | train_acc 0.0517 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 54/256 | train_loss 3.1712 | train_acc 0.0567 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 55/256 | train_loss 3.1689 | train_acc 0.0628 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 56/256 | train_loss 3.1650 | train_acc 0.0648 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 57/256 | train_loss 3.1661 | train_acc 0.0673 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 58/256 | train_loss 3.1644 | train_acc 0.0532 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 59/256 | train_loss 3.1594 | train_acc 0.0693 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 60/256 | train_loss 3.1703 | train_acc 0.0628 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 61/256 | train_loss 3.1587 | train_acc 0.0582 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 62/256 | train_loss 3.1574 | train_acc 0.0678 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 63/256 | train_loss 3.1600 | train_acc 0.0723 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 64/256 | train_loss 3.1512 | train_acc 0.0708 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 65/256 | train_loss 3.1940 | train_acc 0.0607 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 66/256 | train_loss 3.1974 | train_acc 0.0522 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 67/256 | train_loss 3.2011 | train_acc 0.0577 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 68/256 | train_loss 3.1902 | train_acc 0.0567 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 69/256 | train_loss 3.1980 | train_acc 0.0628 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 70/256 | train_loss 3.1994 | train_acc 0.0567 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 71/256 | train_loss 3.1866 | train_acc 0.0658 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 72/256 | train_loss 3.1968 | train_acc 0.0557 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 73/256 | train_loss 3.1862 | train_acc 0.0607 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 74/256 | train_loss 3.1885 | train_acc 0.0582 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 75/256 | train_loss 3.1816 | train_acc 0.0663 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 76/256 | train_loss 3.1903 | train_acc 0.0612 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 77/256 | train_loss 3.1845 | train_acc 0.0562 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 78/256 | train_loss 3.1867 | train_acc 0.0622 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 79/256 | train_loss 3.1798 | train_acc 0.0572 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 80/256 | train_loss 3.1755 | train_acc 0.0607 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 81/256 | train_loss 3.1787 | train_acc 0.0628 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 82/256 | train_loss 3.1797 | train_acc 0.0597 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 83/256 | train_loss 3.1840 | train_acc 0.0612 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 84/256 | train_loss 3.1848 | train_acc 0.0562 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 85/256 | train_loss 3.1701 | train_acc 0.0683 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 86/256 | train_loss 3.1666 | train_acc 0.0658 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 87/256 | train_loss 3.1819 | train_acc 0.0602 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 88/256 | train_loss 3.1720 | train_acc 0.0638 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 89/256 | train_loss 3.1826 | train_acc 0.0648 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 90/256 | train_loss 3.1696 | train_acc 0.0638 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 91/256 | train_loss 3.1743 | train_acc 0.0648 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 92/256 | train_loss 3.1747 | train_acc 0.0648 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 93/256 | train_loss 3.1725 | train_acc 0.0562 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 94/256 | train_loss 3.1718 | train_acc 0.0638 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 95/256 | train_loss 3.1671 | train_acc 0.0622 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 96/256 | train_loss 3.1728 | train_acc 0.0597 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 97/256 | train_loss 3.1767 | train_acc 0.0622 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 98/256 | train_loss 3.1702 | train_acc 0.0773 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 99/256 | train_loss 3.1675 | train_acc 0.0698 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 100/256 | train_loss 3.1707 | train_acc 0.0617 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 101/256 | train_loss 3.1710 | train_acc 0.0582 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 102/256 | train_loss 3.1654 | train_acc 0.0693 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 103/256 | train_loss 3.1670 | train_acc 0.0612 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 104/256 | train_loss 3.1706 | train_acc 0.0622 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 105/256 | train_loss 3.1702 | train_acc 0.0638 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 106/256 | train_loss 3.1691 | train_acc 0.0653 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 107/256 | train_loss 3.1721 | train_acc 0.0597 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 108/256 | train_loss 3.1709 | train_acc 0.0648 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 109/256 | train_loss 3.1661 | train_acc 0.0617 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 110/256 | train_loss 3.1730 | train_acc 0.0517 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 111/256 | train_loss 3.1629 | train_acc 0.0557 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 112/256 | train_loss 3.1635 | train_acc 0.0733 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 113/256 | train_loss 3.1668 | train_acc 0.0527 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 114/256 | train_loss 3.1578 | train_acc 0.0658 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 115/256 | train_loss 3.1613 | train_acc 0.0703 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 116/256 | train_loss 3.1644 | train_acc 0.0597 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 117/256 | train_loss 3.1645 | train_acc 0.0633 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 118/256 | train_loss 3.1685 | train_acc 0.0688 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 119/256 | train_loss 3.1475 | train_acc 0.0733 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 120/256 | train_loss 3.1579 | train_acc 0.0763 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 121/256 | train_loss 3.1580 | train_acc 0.0648 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 122/256 | train_loss 3.1620 | train_acc 0.0703 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 123/256 | train_loss 3.1625 | train_acc 0.0592 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 124/256 | train_loss 3.1579 | train_acc 0.0628 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 125/256 | train_loss 3.1688 | train_acc 0.0577 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 126/256 | train_loss 3.1546 | train_acc 0.0633 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 127/256 | train_loss 3.1721 | train_acc 0.0668 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 128/256 | train_loss 3.1542 | train_acc 0.0653 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 129/256 | train_loss 3.1836 | train_acc 0.0628 | lr 0.0000
+[INFO] l2p.py:499 > Task 0 | Epoch 130/256 | train_loss 3.1885 | train_acc 0.0607 | lr 0.0000

@@ -1,0 +1,12 @@
+[INFO] main.py:40 > Namespace(batchsize=16, batchwise_prompt=False, checkpoint_every_steps=5000, data_dir=None, dataset='tinyimagenet', dist_backend='nccl', dist_url='tcp://127.0.0.1:7009', distributed=True, e_prompt_layer_idx=[0], embedding_key='cls', eval_every_steps=-1, eval_last_only=False, eval_pad_last_batch=False, eval_period=100, eval_task_inc=False, freeze_bn_stats=False, freeze_part=['encoder', 'embedding', 'cls'], gaussian_mode='', gaussian_schedule=False, gpu_transform=True, grad_clip_max_norm=1.0, imp_update_period=1, init_checkpoint=<ml_collections.config_dict.config_dict.FieldReference object at 0x7f162814e310>, initializer='uniform', input_size=224, learning_rate_schedule='constant', length=10, log_loss_every_steps=3, log_path='results', lr=0.0003, m=10, mask_first_epoch=False, memory_size=4000, mode='l2p', model_config=None, model_name='resnet34', multiprocessing_distributed=True, n=50, n_worker=2, norm_01=True, norm_pre_logits=False, note='l2p', num_classes_per_task=10, num_epochs=5, num_eval_steps=-1, num_tasks=5, num_train_steps_per_task=-1, offline_eval=False, online_iter=3.0, optim='adam', per_device_batch_size=16, pool_size=10, predefined_key_path='', prompt_histogram=True, prompt_key=True, prompt_key_init='uniform', prompt_mask_mode=None, prompt_pool=True, pull_constraint=True, pull_constraint_coeff=1.0, recreate_eval=False, reinit_optimizer=True, resize_size=256, reverse_task=False, save_last_ckpt_only=True, save_prompts=False, sched_name='default', seed=1, sgd_momentum=0.9, shared_prompt_key=False, shared_prompt_pool=True, shuffle_buffer_size=10000, subsample_rate=-1, task_specific_cls_token=False, temp_batchsize=None, temperature=1, top_k=4, topk=1, total_class=200, train_mask=True, transforms=['cutmix', 'autoaug'], trial=0, use_amp=False, use_cls_token=True, use_e_prompt=True, use_g_prompt=False, use_prefix_tune_for_e_prompt=False, use_prompt_mask=False, vit_classifier='prompt', warmup_epochs=0, weight_decay=0, weight_norm=False, world_size=4)
+[INFO] main.py:49 > Set the device (cuda)
+[INFO] main.py:95 > Using train-transforms Compose(
+    RandomCrop(size=(64, 64), padding=4)
+    RandomHorizontalFlip(p=0.5)
+    AutoAugment(policy=AutoAugmentPolicy.IMAGENET, fill=None)
+    ConvertImageDtype()
+    Normalize(mean=(0.4802, 0.4481, 0.3975), std=(0.2302, 0.2265, 0.2262))
+)
+[INFO] main.py:105 > [1] Select a CIL method (l2p)
+[INFO] main.py:111 > [2] Incrementally training 5 tasks
+[INFO] main.py:124 > [2-1] Prepare a datalist for the current task

@@ -1,0 +1,26 @@
+python은 동적 타입으로 하나의 변수에 여러 type의 값을 할당할 수 있다.
+편하지만, 예상치 못한 bug를 발생시킬 수 있기 때문에 typing 객체를 사용해서 
+type을 지정해주어 warning을 띄워주는 방식 도입
+
+Q) number에 1을 넣고 싶다면?
+number: int = 1
+
+함수도 parameter의 값을 지정해줄 수 있다.
+def temp(number: int) -> bool: # parameter로 int형이 들어올 것이고 return type은 boolean이라는 의미
+    if number == 1:
+        return True
+
+더하여 python은 함수도 객체로 넘길 수 있다.
+    def temp(func: Callable[[str], int], val: str) -> None:
+        print(func(val))
+
+    def temp2(val: str) -> int:
+        return int(val)
+
+    temp(temp2, '20')
+
+temp 함수에 function이 인자로 들어올 것이고, 그 함수는 string을 input으로 받고, int를 return하는 함수라고 말하는 것이며,
+temp의 또다른 변수는 string이라는 것을 의미한다. 이때 temp2를 넣어주게 되면, temp2의 변수 자리에 '20'이 들어가서 20이 결과 값으로 출력된다.
+
+참고: https://brownbears.tistory.com/572
+
